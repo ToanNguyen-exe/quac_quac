@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Convert Money app</title>
+        </head>
+        <body>
+            <h1>Convert Money App</h1>
+            <input type="number" id="input-money" placeholder="Nhập số tiền (USD)">
+            <select id="select-currency">
+                <option value="VND">VND</option>
+                <option value="EUR">EUR</option>
+                <option value="GBT">GBT</option>
+            </select>
+            <button onclick="Convert()">Convert</button>
+            <p id="output-money"></p>
+        
+            <script>
+                function Convert() {
+                    let inputMoney = +document.getElementById("input-money").value; 
+                    let selectedCurrency = document.getElementById("select-currency").value;
+                    let totalMoney = 0;
+                    if (selectedCurrency === "VND") {
+                        totalMoney = 23400 * inputMoney; 
+                    } else if (selectedCurrency === "EUR") {
+                        totalMoney = 0.95 * inputMoney; 
+                    } else if (selectedCurrency === "GBT") {
+                        totalMoney = 0.78 * inputMoney; 
+                    }
+                               let message = inputMoney + " USD = " + totalMoney + " " + selectedCurrency;
+                    document.getElementById("output-money").innerText = message;
+                }
+            </script>
+        </body>
+</html>

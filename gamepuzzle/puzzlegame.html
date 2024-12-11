@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzle Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        #puzzle {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 300px;
+            height: 300px;
+            position: relative;
+        }
+
+        .piece {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid #fff;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #4caf50;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="puzzle"></div>
+    <div id="message">🎉 Bạn đã hoàn thành trò chơi! 🎉</div>
+    <script>
+        // Danh sách ảnh
+        const imageNames = ["01.gif", "02.gif", "03.gif"];
+        const correctOrder = [
+            "01.gif", "01.gif", "01.gif",
+            "02.gif", "02.gif", "02.gif",
+            "03.gif", "03.gif", "03.gif"
+        ];
+        let currentImages = [...correctOrder]; // Sao chép để theo dõi trạng thái hiện tại
+
+        const puzzle = document.getElementById("puzzle");
+
+        // Khởi tạo lưới
+        function initializePuzzle() {
+            puzzle.innerHTML = "";
+            currentImages.forEach((image, index) => {
+                const piece = document.createElement("div");
+                piece.className = "piece";
+                piece.style.backgroundImage = `url(${image})`;
+                piece.dataset.index = index; // Lưu vị trí của mảnh
+                piece.addEventListener("click", () => changeImage(piece, index));
+                puzzle.appendChild(piece);
+            });
+        }
+
+        // Thay đổi ảnh khi click
+        function changeImage(piece, index) {
+            // Lấy ảnh hiện tại của mảnh
+            const currentImage = currentImages[index];
+            const currentImageIndex = imageNames.indexOf(currentImage);
+            // Chuyển sang ảnh tiếp theo
+            const nextImageIndex = (currentImageIndex + 1) % imageNames.length;
+            const nextImage = imageNames[nextImageIndex];
+
+            // Cập nhật ảnh
+            currentImages[index] = nextImage;
+            piece.style.backgroundImage = `url(${nextImage})`;
+
+            // Kiểm tra hoàn thành
+            checkWin();
+        }
+
+        // Kiểm tra nếu trạng thái hiện tại đúng thứ tự
+        function checkWin() {
+            if (JSON.stringify(currentImages) === JSON.stringify(correctOrder)) {
+                document.getElementById("message").style.display = "block";
+            }
+        }
+
+        // Bắt đầu trò chơi
+        initializePuzzle();
+    </script>
+</body>
+</html>
